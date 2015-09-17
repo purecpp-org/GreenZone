@@ -40,20 +40,13 @@ namespace RedZone
 	public:
 		inline Root * loadFromStream(Reader * stream) const;
 
-		static void addPath(std::string path);
-		static std::vector< std::string > const & paths();
+		inline static void addPath(std::string path);
+		inline static std::vector< std::string >& paths();
 
 		virtual ~Parser(){}
 
 	protected:
 		inline Node * createNode(Fragment const * fragment) const;
-
-	protected:
-		static const std::map<
-			std::string, std::function< Node * () >
-		> s_nodeCreators;
-
-		static std::vector< std::string > s_paths;
 	};
 
 } /* namespace RedZone */

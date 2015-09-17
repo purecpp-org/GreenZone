@@ -28,21 +28,6 @@
 
 namespace RedZone
 {
-
-	const std::map<
-		std::string, std::function< Node * () >
-	> Parser::s_nodeCreators{
-		{ R"(^if\s+.*$)", []() { return new IfNode();      } },
-		{ R"(^else$)", []() { return new ElseNode();    } },
-		{ R"(^for\s+\w[a-zA-Z0-9 _,]* \s*in\s+.+$)", []() { return new EachNode();    } },
-		{ R"(^include\s+.+$)", []() { return new IncludeNode(); } },
-		{ R"(^block\s+\w+$)", []() { return new BlockNode();   } },
-		{ R"(^extends\s+.+$)", []() { return new ExtendsNode(); } },
-		{ R"(^cache\s+\d+\s+.+)", []() { return new CacheNode();   } },
-	};
-
-	std::vector< std::string > Parser::s_paths{ "./", };
-
 	Root * Parser::loadFromStream(Reader * stream) const
 	{
 
@@ -134,7 +119,20 @@ namespace RedZone
 		{
 			auto finder = [fragment](std::pair< std::string, std::function< Node * () > > value)
 			{
-				return std::regex_search(fragment->clean(), std::regex(value.first)); };
+				return std::regex_search(fragment->clean(), std::regex(value.first));
+			};
+
+			const std::map<
+				std::string, std::function< Node * () >
+			> s_nodeCreators{
+				{ R"(^if\s+.*$)", []() { return new IfNode();      } },
+				{ R"(^else$)", []() { return new ElseNode();    } },
+				{ R"(^for\s+\w[a-zA-Z0-9 _,]* \s*in\s+.+$)", []() { return new EachNode();    } },
+				{ R"(^include\s+.+$)", []() { return new IncludeNode(); } },
+				{ R"(^block\s+\w+$)", []() { return new BlockNode();   } },
+				{ R"(^extends\s+.+$)", []() { return new ExtendsNode(); } },
+				{ R"(^cache\s+\d+\s+.+)", []() { return new CacheNode();   } },
+			};
 			auto found = std::find_if(s_nodeCreators.begin(), s_nodeCreators.end(), finder);
 			if (found == s_nodeCreators.end()) {
 				throw TemplateSyntaxError(fragment->clean());
@@ -154,11 +152,12 @@ namespace RedZone
 		path = replaceString(path, "\\", "/");
 		if (path.back() != '/')
 			path.push_back('/');
-		s_paths.push_back(path);
+		paths().push_back(path);
 	}
 
-	std::vector< std::string > const & Parser::paths()
+	std::vector< std::string >& Parser::paths()
 	{
+		static std::vector< std::string > s_paths{ "./", };
 		return s_paths;
 	}
 

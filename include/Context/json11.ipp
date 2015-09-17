@@ -226,7 +226,7 @@ namespace json11
 	class JsonArray final : public Value<Json::ARRAY, Json::array>
 	{
 		const Json::array &array_items() const { return m_value; }
-		const Json & operator[](size_t i) const;
+		inline const Json & operator[](size_t i) const;
 	public:
 		JsonArray(const Json::array &value) : Value(value) {}
 		JsonArray(Json::array &&value) : Value(std::move(value)) {}
@@ -235,7 +235,7 @@ namespace json11
 	class JsonObject final : public Value<Json::OBJECT, Json::object>
 	{
 		const Json::object &object_items() const { return m_value; }
-		const Json & operator[](const std::string &key) const;
+		inline const Json & operator[](const std::string &key) const;
 	public:
 		JsonObject(const Json::object &value) : Value(value) {}
 		JsonObject(Json::object &&value) : Value(std::move(value)) {}
@@ -261,13 +261,13 @@ namespace json11
 		Statics() {}
 	};
 
-	const Statics & statics()
+	inline const Statics & statics()
 	{
 		static const Statics s{};
 		return s;
 	}
 
-	const Json & static_null()
+	inline const Json & static_null()
 	{
 		// This has to be separate, not in Statics, because Json() accesses statics().null.
 		static const Json json_null;

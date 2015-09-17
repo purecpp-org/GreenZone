@@ -89,6 +89,7 @@
     <None Include="test.tpl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dummy.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

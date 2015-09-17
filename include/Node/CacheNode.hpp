@@ -31,6 +31,8 @@ namespace RedZone
 
 		virtual void render(Writer * stream, Context * context) const
 		{
+			static std::unordered_map< size_t, CacheRow > s_cached;
+
 			ExpressionParser parser(context);
 
 			size_t hashValue = 1;
@@ -120,9 +122,6 @@ namespace RedZone
 	protected:
 		uint64_t m_cacheTime;
 		std::vector< std::string > m_vars;
-		static std::unordered_map< size_t, CacheRow > s_cached;
 	};
-
-	std::unordered_map< size_t, CacheNode::CacheRow > CacheNode::s_cached;
 } /* namespace RedZone */
 
