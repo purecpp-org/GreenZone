@@ -5,8 +5,8 @@
  *      Author: jc
  */
 
-#include <Context/Context.h>
-#include <Template/FileTemplate.h>
+#include <Context/Context.hpp>
+#include <Template/FileTemplate.hpp>
 
 #include <fstream>
 #include <iostream>

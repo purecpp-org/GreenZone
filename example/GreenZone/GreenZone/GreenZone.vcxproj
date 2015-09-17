@@ -80,6 +80,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\..\..\include\Context\json11.ipp" />
+    <None Include="..\..\..\include\Parser\Parser.ipp" />
     <None Include="base_test.tpl" />
     <None Include="inc_test.tpl" />
     <None Include="middle_test.tpl" />
@@ -88,6 +90,33 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\Common.hpp" />
+    <ClInclude Include="..\..\..\include\Context\Context.hpp" />
+    <ClInclude Include="..\..\..\include\Context\json11.hpp" />
+    <ClInclude Include="..\..\..\include\Exception.hpp" />
+    <ClInclude Include="..\..\..\include\IO\FileReader.hpp" />
+    <ClInclude Include="..\..\..\include\IO\Reader.hpp" />
+    <ClInclude Include="..\..\..\include\IO\StringReader.hpp" />
+    <ClInclude Include="..\..\..\include\IO\StringWriter.hpp" />
+    <ClInclude Include="..\..\..\include\IO\writer.hpp" />
+    <ClInclude Include="..\..\..\include\Node\BlockNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\CacheNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\EachNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\ElseNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\ExtendsNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\IfNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\IncludeNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\Node.hpp" />
+    <ClInclude Include="..\..\..\include\Node\Root.hpp" />
+    <ClInclude Include="..\..\..\include\Node\TextNode.hpp" />
+    <ClInclude Include="..\..\..\include\Node\Variable.hpp" />
+    <ClInclude Include="..\..\..\include\Parser\ExpressionParser.hpp" />
+    <ClInclude Include="..\..\..\include\Parser\Fragment.hpp" />
+    <ClInclude Include="..\..\..\include\Parser\Parser.hpp" />
+    <ClInclude Include="..\..\..\include\Template\FileTemplate.hpp" />
+    <ClInclude Include="..\..\..\include\Template\Template.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

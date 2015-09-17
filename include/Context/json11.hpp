@@ -64,7 +64,6 @@
 
 namespace json11
 {
-
 	class JsonValue;
 
 	class Json final
@@ -214,4 +213,4 @@ namespace json11
 
 } // namespace json11
 
-#include <Context/json11.cpp>
+#include <Context/json11.ipp>
