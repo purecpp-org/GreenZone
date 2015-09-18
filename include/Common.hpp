@@ -16,7 +16,7 @@
 #include <io.h>
 #endif
 
-namespace RedZone
+namespace GreenZone
 {
 	// Taken from here http://stackoverflow.com/a/15167203/2080453
 	inline std::string dbl2str(double d)

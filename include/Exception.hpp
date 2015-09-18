@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace RedZone
+namespace GreenZone
 {
 	class Exception : public std::exception
 	{
@@ -69,7 +69,7 @@ namespace RedZone
 	};
 
 
-	class IOError : public RedZone::Exception
+	class IOError : public GreenZone::Exception
 	{
 	public:
 		IOError(std::string const & message)

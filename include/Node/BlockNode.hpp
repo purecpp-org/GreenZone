@@ -12,7 +12,7 @@
 
 #include <regex>
 
-namespace RedZone
+namespace GreenZone
 {
 
 	class BlockNode : public Node

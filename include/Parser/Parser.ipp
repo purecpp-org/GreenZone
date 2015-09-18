@@ -26,7 +26,7 @@
 #include <Node/Variable.hpp>
 #include <Parser/Fragment.hpp>
 
-namespace RedZone
+namespace GreenZone
 {
 	Root * Parser::loadFromStream(Reader * stream) const
 	{

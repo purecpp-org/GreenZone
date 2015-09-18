@@ -11,7 +11,7 @@
 #include <Context/Context.hpp>
 #include <Parser/Fragment.hpp>
 
-namespace RedZone
+namespace GreenZone
 {
 	class Writer;
 

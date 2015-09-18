@@ -14,7 +14,7 @@
 #include <string>
 
 
-namespace RedZone
+namespace GreenZone
 {
 
 	class FileReader : public Reader

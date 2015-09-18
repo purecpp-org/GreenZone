@@ -20,7 +20,7 @@
 #include <set>
 #include <typeinfo>
 
-namespace RedZone
+namespace GreenZone
 {
 	class Writer;
 

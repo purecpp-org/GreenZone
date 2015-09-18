@@ -11,7 +11,7 @@
 
 #include <Node/Node.hpp>
 
-namespace RedZone
+namespace GreenZone
 {
 
 	class Writer;

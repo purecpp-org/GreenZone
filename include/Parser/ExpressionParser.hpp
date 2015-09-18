@@ -28,7 +28,7 @@
                     " arguments, expected " + std::to_string( SIZE ) ); \
 	        }
 
-namespace RedZone
+namespace GreenZone
 {
 	class Context;
 

@@ -24,7 +24,7 @@
 #include <memory>
 #include <regex>
 
-namespace RedZone
+namespace GreenZone
 {
 	class Root;
 

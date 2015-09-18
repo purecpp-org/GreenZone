@@ -18,7 +18,7 @@
 #include <regex>
 
 
-namespace RedZone
+namespace GreenZone
 {
 	class Writer;
 

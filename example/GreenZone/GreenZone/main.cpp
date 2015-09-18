@@ -15,7 +15,7 @@
 
 int main( int argc, char ** argv )
 {
-    RedZone::FileTemplate tpl( "test.tpl" );
+    GreenZone::FileTemplate tpl( "test.tpl" );
 
     std::ifstream jsonIn( "test.json" );
     if( !jsonIn.good() ) {
@@ -35,7 +35,7 @@ int main( int argc, char ** argv )
        return 1;
     }
 
-    RedZone::Context * cont( new RedZone::Context( json ) );
+    GreenZone::Context * cont( new GreenZone::Context( json ) );
 
     std::cout << tpl.render( cont ) << std::endl;
 

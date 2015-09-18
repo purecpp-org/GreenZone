@@ -15,7 +15,7 @@
 #include <vector>
 
 
-namespace RedZone
+namespace GreenZone
 {
 
 	class Context;

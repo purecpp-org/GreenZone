@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace RedZone
+namespace GreenZone
 {
 
 	class StringReader : public Reader

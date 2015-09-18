@@ -20,7 +20,7 @@
 #include <Node/ExtendsNode.hpp>
 #include <Node/BlockNode.hpp>
 
-namespace RedZone
+namespace GreenZone
 {
 	class Root;
 

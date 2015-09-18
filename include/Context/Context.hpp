@@ -24,7 +24,7 @@
    throw Exception( "Got " + std::to_string( args.size() ) + \
                     " arguments, expected " + std::to_string( SIZE ) ); \
 										        }
-namespace RedZone
+namespace GreenZone
 {
 	class Context
 	{

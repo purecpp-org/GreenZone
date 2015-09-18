@@ -19,7 +19,7 @@
 #define COMMENT_START_TOKEN "{#"
 #define COMMENT_END_TOKEN   "#}"
 
-namespace RedZone
+namespace GreenZone
 {
 
 	class Fragment;

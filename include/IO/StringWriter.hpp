@@ -11,7 +11,7 @@
 #include <string>
 
 
-namespace RedZone
+namespace GreenZone
 {
 
 	class StringWriter : public Writer
