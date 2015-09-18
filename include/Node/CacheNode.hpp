@@ -40,7 +40,7 @@ namespace RedZone
 
 			for (auto varName : m_vars)
 			{
-				Json var = parser.parse(varName);
+				json11::Json var = parser.parse(varName);
 				hashValue ^= hashFunc(var.dump());
 			}
 

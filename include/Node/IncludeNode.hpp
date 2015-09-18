@@ -36,7 +36,7 @@ namespace RedZone
 		virtual void render(Writer * stream, Context * context) const
 		{
 			ExpressionParser exprParser(context);
-			Json paths = exprParser.parse(m_includeExpr);
+			json11::Json paths = exprParser.parse(m_includeExpr);
 			std::vector< std::string > const & allParserPaths = Parser::paths();
 			std::string const wrongArgumentError =
 				"Include expression \"" + m_includeExpr + "\" must be single string or array of strings.";
@@ -61,14 +61,14 @@ namespace RedZone
 			}
 			else if (paths.is_array())
 			{
-				Json::array const & allPaths = paths.array_items();
+				json11::Json::array const & allPaths = paths.array_items();
 				if (std::any_of(allPaths.begin(), allPaths.end(),
-					std::bind(std::equal_to< bool >(), std::bind(&Json::is_string, std::placeholders::_1), false)))
+					std::bind(std::equal_to< bool >(), std::bind(&json11::Json::is_string, std::placeholders::_1), false)))
 				{
 					throw Exception(wrongArgumentError); // Some elements in array do not have string type
 				}
 				std::transform(allPaths.begin(), allPaths.end(), std::back_inserter(roots),
-					std::bind(rootCreator, std::bind(&Json::string_value, std::placeholders::_1)));
+					std::bind(rootCreator, std::bind(&json11::Json::string_value, std::placeholders::_1)));
 			}
 			else
 			{

@@ -70,7 +70,7 @@ namespace RedZone
 				}
 			}
 
-			Json result;
+			json11::Json result;
 			try
 			{
 				result = parseRecursive(expression);
@@ -91,7 +91,7 @@ namespace RedZone
 			std::string err;
 
 			// trying to convert the expression to json
-			Json result = Json::parse(expression, err);
+			json11::Json result = json11::Json::parse(expression, err);
 			if (!err.length())
 			{
 				return result;
@@ -160,7 +160,7 @@ namespace RedZone
 					throw ExpressionException(expression, "No such function: " + funcName);
 				}
 				std::string argsString = funcMatch[2];
-				std::vector< Json > args;
+				std::vector< json11::Json > args;
 				int pcount = 0, qbcount = 0, bcount = 0;
 				bool inQuotes = false;
 				decltype(argsString)::const_iterator start = argsString.begin(), current = argsString.begin();

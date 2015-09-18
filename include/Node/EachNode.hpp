@@ -30,28 +30,28 @@ namespace RedZone
 		virtual void render(Writer * stream, Context * context) const
 		{
 			ExpressionParser parser(context);
-			Json container = parser.parse(m_container);
+			json11::Json container = parser.parse(m_container);
 			if (!(container.is_array() || container.is_object()))
 			{
 				throw Exception(container.dump() + " is not iterable");
 			}
 
-			Json::object prototype = context->json().object_items();
+			json11::Json::object prototype = context->json().object_items();
 
 			std::shared_ptr< Context > newContext(new Context(prototype));
-			if (container.type() == Json::ARRAY)
+			if (container.type() == json11::Json::ARRAY)
 			{
-				Json::array items = container.array_items();
+				json11::Json::array items = container.array_items();
 				for (auto const & item : items)
 				{
 					prototype[m_vars[0]] = item;
-					newContext->setJson(Json(prototype));
+					newContext->setJson(json11::Json(prototype));
 					renderChildren(stream, newContext.get());
 				}
 			}
-			else if (container.type() == Json::OBJECT)
+			else if (container.type() == json11::Json::OBJECT)
 			{
-				Json::object items = container.object_items();
+				json11::Json::object items = container.object_items();
 				for (auto const & item : items)
 				{
 					prototype[m_vars[0]] = item.first;
@@ -59,7 +59,7 @@ namespace RedZone
 					{
 						prototype[m_vars[1]] = item.second;
 					}
-					newContext->setJson(Json(prototype));
+					newContext->setJson(json11::Json(prototype));
 					renderChildren(stream, newContext.get());
 				}
 			}

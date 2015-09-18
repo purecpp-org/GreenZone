@@ -18,23 +18,23 @@ namespace RedZone
 		virtual void render(Writer * stream, Context * context) const
 		{
 			ExpressionParser parser(context);
-			Json result = parser.parse(m_expression);
+			json11::Json result = parser.parse(m_expression);
 			switch (result.type())
 			{
-			case Json::NUL:
+			case json11::Json::NUL:
 				stream->write("null");
 				break;
-			case Json::NUMBER:
+			case json11::Json::NUMBER:
 				stream->write(dbl2str(result.number_value()));
 				break;
-			case Json::STRING:
+			case json11::Json::STRING:
 				stream->write(result.string_value());
 				break;
-			case Json::BOOL:
+			case json11::Json::BOOL:
 				stream->write(result.bool_value() ? "true" : "false");
 				break;
-			case Json::ARRAY:
-			case Json::OBJECT:
+			case json11::Json::ARRAY:
+			case json11::Json::OBJECT:
 				stream->write(result.dump());
 				break;
 			}

@@ -12,7 +12,6 @@
 #include <iostream>
 #include <string>
 
-using namespace json11;
 
 int main( int argc, char ** argv )
 {
@@ -25,7 +24,7 @@ int main( int argc, char ** argv )
 
     std::string err;
 
-    Json json( Json::parse(
+	json11::Json json(json11::Json::parse(
        std::string(
           std::istreambuf_iterator< char >( jsonIn ),
           std::istreambuf_iterator< char >() ),

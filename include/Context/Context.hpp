@@ -26,7 +26,6 @@
 										        }
 namespace RedZone
 {
-	using namespace json11;
 	class Context
 	{
 	public:
@@ -40,7 +39,7 @@ namespace RedZone
 			: Context()
 		{
 			std::string err;
-			m_json = Json::parse(json, err);
+			m_json = json11::Json::parse(json, err);
 			if (err.size())
 			{
 				throw JsonError(err);
@@ -76,13 +75,13 @@ namespace RedZone
 
 		json11::Json resolve(std::string const & name) const
 		{
-			Json result = m_json;
+			json11::Json result = m_json;
 			static const std::regex splitter(R"(\.)");
 			std::sregex_token_iterator iter(name.begin(), name.end(), splitter, -1);
 			static const std::sregex_token_iterator end;
 			for (; iter != end; ++iter)
 			{
-				Json tmp = result[*iter];
+				json11::Json tmp = result[*iter];
 				if (tmp.is_null())
 				{
 					throw TemplateContextError(name);
@@ -108,42 +107,42 @@ namespace RedZone
 		Context()
 			: m_binaryOperations(
 		{
-			std::make_tuple("+", 2, [](Json const & lhs, Json const & rhs) -> Json
+			std::make_tuple("+", 2, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
-				static std::map< std::tuple< Json::Type, Json::Type >,
-					std::function< Json(Json const &, Json const &) > > const possibleOperations
+				static std::map< std::tuple< json11::Json::Type, json11::Json::Type >,
+					std::function< json11::Json(json11::Json const &, json11::Json const &) > > const possibleOperations
 				{
 					{
-						std::make_tuple(Json::NUMBER, Json::NUMBER),
+						std::make_tuple(json11::Json::NUMBER, json11::Json::NUMBER),
 
-						[](Json const & lhs, Json const & rhs) -> Json
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 						{
 							// Yes-yes, I know about implicit constructors feature
 							// but I'd rather to call explicit instead
-							return Json(lhs.number_value() + rhs.number_value());
+							return json11::Json(lhs.number_value() + rhs.number_value());
 						}
 					},
 
 					{
-						std::make_tuple(Json::STRING, Json::STRING),
-						[](Json const & lhs, Json const & rhs) -> Json
+						std::make_tuple(json11::Json::STRING, json11::Json::STRING),
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 						{
-							return Json(lhs.string_value() + rhs.string_value());
+							return json11::Json(lhs.string_value() + rhs.string_value());
 						}
 					},
 					{
-						std::make_tuple(Json::NUMBER, Json::STRING),
-						[](Json const & lhs, Json const & rhs) -> Json
+						std::make_tuple(json11::Json::NUMBER, json11::Json::STRING),
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 						{
-							return Json(dbl2str(lhs.number_value()) + rhs.string_value());
+							return json11::Json(dbl2str(lhs.number_value()) + rhs.string_value());
 						}
 					},
 
 					{
-						std::make_tuple(Json::STRING, Json::NUMBER),
-						[](Json const & lhs, Json const & rhs) -> Json
+						std::make_tuple(json11::Json::STRING, json11::Json::NUMBER),
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 						{
-							return Json(lhs.string_value() + dbl2str(rhs.number_value()));
+							return json11::Json(lhs.string_value() + dbl2str(rhs.number_value()));
 						}
 					}
 				};
@@ -156,16 +155,16 @@ namespace RedZone
 				return foundOperation->second(lhs, rhs);
 			}),
 
-				std::make_tuple("-", 2, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("-", 2, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
-				static std::map< std::tuple< Json::Type, Json::Type >,
-					std::function< Json(Json const &, Json const &) > > const possibleOperations
+				static std::map< std::tuple< json11::Json::Type, json11::Json::Type >,
+					std::function< json11::Json(json11::Json const &, json11::Json const &) > > const possibleOperations
 				{
 					{
-						std::make_tuple(Json::NUMBER, Json::NUMBER),
-						[](Json const & lhs, Json const & rhs) -> Json
+						std::make_tuple(json11::Json::NUMBER, json11::Json::NUMBER),
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 						{
-							return Json(lhs.number_value() - rhs.number_value());
+							return json11::Json(lhs.number_value() - rhs.number_value());
 						}
 					}
 				};
@@ -178,21 +177,22 @@ namespace RedZone
 				return foundOperation->second(lhs, rhs);
 			}),
 
-				std::make_tuple("*", 3, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("*", 3, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
-				static std::map< std::tuple< Json::Type, Json::Type >,
-					std::function< Json(Json const &, Json const &) > > const possibleOperations
+				static std::map< std::tuple< json11::Json::Type, json11::Json::Type >,
+					std::function< json11::Json(json11::Json const &, json11::Json const &) > > const possibleOperations
 				{
 					{
-						std::make_tuple(Json::NUMBER, Json::NUMBER),
-						[](Json const & lhs, Json const & rhs) -> Json {
-							return Json(lhs.number_value() * rhs.number_value());
+						std::make_tuple(json11::Json::NUMBER, json11::Json::NUMBER),
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
+						{
+							return json11::Json(lhs.number_value() * rhs.number_value());
 						}
 					},
 
 					{
-						std::make_tuple(Json::STRING, Json::NUMBER),
-						[](Json const & lhs, Json const & rhs) -> Json
+						std::make_tuple(json11::Json::STRING, json11::Json::NUMBER),
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 						{
 							std::string repeated;
 							if (rhs.number_value() < 0.f)
@@ -203,7 +203,7 @@ namespace RedZone
 							{
 								repeated += lhs.string_value();
 							}
-							return Json(repeated);
+							return json11::Json(repeated);
 						}
 					},
 				};
@@ -216,16 +216,16 @@ namespace RedZone
 				}
 				return foundOperation->second(lhs, rhs);
 			}),
-				std::make_tuple("/", 3, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("/", 3, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
-				static std::map< std::tuple< Json::Type, Json::Type >,
-					std::function< Json(Json const &, Json const &) > > const possibleOperations
+				static std::map< std::tuple< json11::Json::Type, json11::Json::Type >,
+					std::function< json11::Json(json11::Json const &, json11::Json const &) > > const possibleOperations
 				{
 					{
-						std::make_tuple(Json::NUMBER, Json::NUMBER),
-						[](Json const & lhs, Json const & rhs) -> Json
+						std::make_tuple(json11::Json::NUMBER, json11::Json::NUMBER),
+						[](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 						{
-							return Json(lhs.number_value() / rhs.number_value());
+							return json11::Json(lhs.number_value() / rhs.number_value());
 						}
 					}
 				};
@@ -237,35 +237,35 @@ namespace RedZone
 				}
 				return foundOperation->second(lhs, rhs);
 			}),
-				std::make_tuple(">", 1, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple(">", 1, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs > rhs;
 			}),
-				std::make_tuple("<", 1, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("<", 1, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs < rhs;
 			}),
-				std::make_tuple("==", 1, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("==", 1, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs == rhs;
 			}),
-				std::make_tuple("!=", 1, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("!=", 1, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs != rhs;
 			}),
-				std::make_tuple("<=", 1, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("<=", 1, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs <= rhs;
 			}),
-				std::make_tuple(">=", 1, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple(">=", 1, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs >= rhs;
 			}),
-				std::make_tuple("&&", 0, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("&&", 0, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs.bool_value() && rhs.bool_value();
 			}),
-				std::make_tuple("||", 0, [](Json const & lhs, Json const & rhs) -> Json
+				std::make_tuple("||", 0, [](json11::Json const & lhs, json11::Json const & rhs) -> json11::Json
 			{
 				return lhs.bool_value() || rhs.bool_value();
 			})
@@ -274,41 +274,41 @@ namespace RedZone
 		, m_functions(
 			{
 				{
-					"sin", [](std::vector< Json > const & args) -> Json
+					"sin", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(1);
 						if (!args[0].is_number())
 						{
 							throw Exception("Function accepts only numeric arguments");
 						}
-						return Json(::sin(args[0].number_value()));
+						return json11::Json(::sin(args[0].number_value()));
 					}
 				},
 				{
-					"cos", [](std::vector< Json > const & args) -> Json
+					"cos", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(1);
 						if (!args[0].is_number()) {
 							throw Exception("Function accepts only numeric arguments");
 						}
-						return Json(::cos(args[0].number_value()));
+						return json11::Json(::cos(args[0].number_value()));
 					}
 				},
 				{
-					"length", [](std::vector< Json > const & args) -> Json
+					"length", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(1);
-						Json arg = args[0];
+						json11::Json arg = args[0];
 						if (arg.is_array()) {
-							return Json(int(arg.array_items().size()));
+							return json11::Json(int(arg.array_items().size()));
 						}
 						else if (arg.is_object())
 						{
-							return Json(int(arg.object_items().size()));
+							return json11::Json(int(arg.object_items().size()));
 						}
 						else if (arg.is_string())
 						{
-							return Json(int(arg.string_value().size()));
+							return json11::Json(int(arg.string_value().size()));
 						}
 						else
 						{
@@ -318,19 +318,19 @@ namespace RedZone
 				},
 
 				{
-					"not", [](std::vector< Json > const & args) -> Json
+					"not", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(1);
-						return Json(!args[0].bool_value());
+						return json11::Json(!args[0].bool_value());
 					}
 				},
 				{
-					"get", [](std::vector< Json > const & args) -> Json
+					"get", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(2);
-						Json container = args[0];
-						Json key = args[1];
-						Json result;
+						json11::Json container = args[0];
+						json11::Json key = args[1];
+						json11::Json result;
 						if (container.is_array())
 						{
 							if (!key.is_number())
@@ -353,14 +353,14 @@ namespace RedZone
 							{
 								throw Exception("Key must be number, got " + key.dump());
 							}
-							return Json(
+							return json11::Json(
 								std::string(1, container.string_value()[static_cast<size_t>(key.number_value())]));
 						}
 						throw Exception("Can not get anything from " + container.dump());
 					}
 				},
 				{
-					"lower", [](std::vector< Json > const & args) -> Json
+					"lower", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(1);
 						if (!args[0].is_string())
@@ -370,11 +370,11 @@ namespace RedZone
 						std::string arg = args[0].string_value();
 						std::string result;
 						std::transform(arg.begin(), arg.end(), std::back_inserter(result), ::tolower);
-						return Json(result);
+						return json11::Json(result);
 					}
 				},
 				{
-					"upper", [](std::vector< Json > const & args) -> Json
+					"upper", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(1);
 						if (!args[0].is_string())
@@ -384,17 +384,17 @@ namespace RedZone
 						std::string arg = args[0].string_value();
 						std::string result;
 						std::transform(arg.begin(), arg.end(), std::back_inserter(result), ::toupper);
-						return Json(result);
+						return json11::Json(result);
 					}
 				},
 				{
-					"contains", [](std::vector< Json > const & args) -> Json
+					"contains", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(2);
 						bool result = false;
 						if (args[0].is_string() && args[1].is_object())
 						{
-							if (args[1][args[0].string_value()].type() != Json::NUL)
+							if (args[1][args[0].string_value()].type() != json11::Json::NUL)
 							{
 								result = true;
 							}
@@ -412,18 +412,18 @@ namespace RedZone
 						{
 							throw Exception("Can not find appropriate signature");
 						}
-						return Json(result);
+						return json11::Json(result);
 					}
 				},
 				{
-					"to_json", [](std::vector< Json > const & args) -> Json
+					"to_json", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(1);
-						return Json(args[0].dump());
+						return json11::Json(args[0].dump());
 					}
 				},
 				{
-					"random", [](std::vector< Json > const & args) -> Json
+					"random", [](std::vector< json11::Json > const & args) -> json11::Json
 					{
 						ARGS_SIZE_CHECK(2);
 						if (!args[0].is_number() || !args[1].is_number())
@@ -434,7 +434,7 @@ namespace RedZone
 							b = int(args[1].number_value());
 						if (a == b)
 						{
-							return Json(a);
+							return json11::Json(a);
 						}
 						if (a > b)
 						{
@@ -443,7 +443,7 @@ namespace RedZone
 						std::random_device seed;
 						std::default_random_engine generator(seed());
 						std::uniform_int_distribution< int > distribution(a, b);
-						return Json(distribution(generator));
+						return json11::Json(distribution(generator));
 					}
 				},
 			})
