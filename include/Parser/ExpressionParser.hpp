@@ -100,7 +100,7 @@ namespace GreenZone
 			trimString(expression);
 
 			// perhaps that's a variable
-			static std::regex const variableRegex(R"(^[a-zA-Z][a-zA-Z0-9\.]*$)");
+			static std::regex const variableRegex(R"(^[a-zA-Z_][a-zA-Z_0-9\.]*$)");
 			std::smatch match;
 			if (std::regex_match(expression, match, variableRegex))
 			{
